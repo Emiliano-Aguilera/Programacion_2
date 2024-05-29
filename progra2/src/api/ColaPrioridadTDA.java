@@ -6,4 +6,5 @@ public interface ColaPrioridadTDA {
     void Desacolar();
     void InicializarCola();
     void Acolar(int valor, int prioridad);
+    int Prioridad();
 }

@@ -35,6 +35,10 @@ public class ColaPrioridadEstatica implements ColaPrioridadTDA {
         return (indice == 0);
     }
 
+    public int Prioridad(){
+        return(prioridades[0]);
+    }
+
     private void Insertar(int inicio, int fin, int valor_, int prioridad_) {
         for (int i = fin; i > inicio; i--) {
             valores[i] = valores[i - 1];

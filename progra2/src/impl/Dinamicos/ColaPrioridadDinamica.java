@@ -34,6 +34,10 @@ public class ColaPrioridadDinamica implements ColaPrioridadTDA{
         return (primero == null);
     }
 
+    public int Prioridad() {
+        return (primero.prioridad);
+    }
+
     private void Insertar(NodoColaPrioridad _primero, NodoColaPrioridad _nuevo) {
         if(_primero.prioridad < _nuevo.prioridad) {
             _nuevo.siguiente = _primero.siguiente;
