@@ -16,6 +16,7 @@ import api.TPO.TPOTDA;
 public class TPOimplementacion implements TPOTDA {
     GrafoCiudadTDA grafo = new GrafoDinamicoCiudad();
 
+    // --- Primer Punto
     public void inicializar() {
         grafo.InicializarGrafo();
     }
@@ -40,6 +41,7 @@ public class TPOimplementacion implements TPOTDA {
         grafo.AgregarArista(ciudad1, ciudad2, Kilometros);
     }
 
+    // --- Segundo Punto
     public ConjuntoCiudadTDA ciudadesVecinas(String ciudad) {
         ConjuntoCiudadTDA vecinas = new ConjuntoCiudadDinamico();
         ConjuntoCiudadTDA ciudades = grafo.Vertices();
@@ -80,6 +82,7 @@ public class TPOimplementacion implements TPOTDA {
 
     }
 
+    // --- Tercer Punto
     public ConjuntoCiudadTDA ciudadesPuente(String ciudadA, String ciudadB) {
         ConjuntoCiudadTDA puentes = new ConjuntoCiudadDinamico();
         ConjuntoCiudadTDA ciudades = grafo.Vertices();
@@ -118,6 +121,7 @@ public class TPOimplementacion implements TPOTDA {
         return puentes;
     }
 
+    // --- Cuarto Punto
     public ConjuntoCiudadTDA ciudadesPredecesoras(String ciudadA) {
         ConjuntoCiudadTDA predecesoras = new ConjuntoCiudadDinamico();
         ConjuntoCiudadTDA ciudades = grafo.Vertices();
@@ -146,7 +150,8 @@ public class TPOimplementacion implements TPOTDA {
 
         return predecesoras;
     }
-
+    
+    // --- Quinto Punto
     public ConjuntoCiudadTDA ciudadesExtremo() {
 
         ConjuntoCiudadTDA ciudades = grafo.Vertices();
@@ -165,6 +170,42 @@ public class TPOimplementacion implements TPOTDA {
         return extremos;
     }
 
+    // --- Sexto Punto
+    public void listarCiudadesFuertementeConectadas() {
+        ConjuntoCiudadTDA ciudades = grafo.Vertices(); // Obtener conjunto de todas las ciudades
+        ConjuntoCiudadTDA ciudadesFuertementeConectadas = new ConjuntoCiudadDinamico();
+        ciudadesFuertementeConectadas.InicializarConjunto();
+
+        // Recorrer todas las ciudades en el grafo
+        while (!ciudades.ConjuntoVacio()) {
+            String ciudad1 = ciudades.Elegir();
+            ciudades.Sacar(ciudad1);
+
+            ConjuntoCiudadTDA ciudadesRestantes = grafo.Vertices(); // Copiar conjunto de todas las ciudades
+
+            // Verificar rutas de ida y vuelta entre ciudad1 y cada otra ciudad
+            while (!ciudadesRestantes.ConjuntoVacio()) {
+                String ciudad2 = ciudadesRestantes.Elegir();
+                ciudadesRestantes.Sacar(ciudad2);
+
+                // Si existe ruta de ida y vuelta entre ciudad1 y ciudad2
+                if (grafo.ExisteArista(ciudad1, ciudad2) && grafo.ExisteArista(ciudad2, ciudad1)) {
+                    if(!ciudadesFuertementeConectadas.Pertenece(ciudad1) || !ciudadesFuertementeConectadas.Pertenece(ciudad2)){
+                        System.out.printf("Las ciudades %s y %s estan fuertemente conectadas.\n", ciudad1, ciudad2);
+                    }
+                    ciudadesFuertementeConectadas.Agregar(ciudad1);
+                    ciudadesFuertementeConectadas.Agregar(ciudad2);
+                }
+            }
+        }
+
+        // Imprimir las ciudades fuertemente conectadas encontradas
+        if(ciudadesFuertementeConectadas.ConjuntoVacio()){
+            System.out.println("No hay ciudades fuertemente conectadas registradas.");
+        }
+    }
+
+    // --- Séptimo Punto
     public String calcularCamino(String ciudadA, String ciudadB) {
         // Estructuras auxiliares
         Queue<String> cola = new LinkedList<>();
@@ -235,6 +276,7 @@ public class TPOimplementacion implements TPOTDA {
         return distanciaTotal;
     }
 
+    // --- Octavo Punto
     public void CargarCiudadesPrueba() {
         this.cargarCiudad("La Plata", "Buenos Aires");
         this.cargarCiudad("Mar del Plata", "Buenos Aires");
@@ -251,7 +293,7 @@ public class TPOimplementacion implements TPOTDA {
         this.cargarCiudad("Trelew", "Chubut");
         this.cargarCiudad("Puerto Madryn", "Chubut");
 
-        // añiado aristas
+        // añado aristas
 
         this.AniadirRuta("CABA", "Mar del Plata", 400);
         this.AniadirRuta("CABA", "La Plata", 60);
@@ -279,39 +321,4 @@ public class TPOimplementacion implements TPOTDA {
         this.AniadirRuta("Rawson", "Cafayate", 2200);
         this.AniadirRuta("Rawson", "Trelew", 20);
     }
-
-    public void listarCiudadesFuertementeConectadas() {
-        ConjuntoCiudadTDA ciudades = grafo.Vertices(); // Obtener conjunto de todas las ciudades
-        ConjuntoCiudadTDA ciudadesFuertementeConectadas = new ConjuntoCiudadDinamico();
-        ciudadesFuertementeConectadas.InicializarConjunto();
-
-        // Recorrer todas las ciudades en el grafo
-        while (!ciudades.ConjuntoVacio()) {
-            String ciudad1 = ciudades.Elegir();
-            ciudades.Sacar(ciudad1);
-
-            ConjuntoCiudadTDA ciudadesRestantes = grafo.Vertices(); // Copiar conjunto de todas las ciudades
-
-            // Verificar rutas de ida y vuelta entre ciudad1 y cada otra ciudad
-            while (!ciudadesRestantes.ConjuntoVacio()) {
-                String ciudad2 = ciudadesRestantes.Elegir();
-                ciudadesRestantes.Sacar(ciudad2);
-
-                // Si existe ruta de ida y vuelta entre ciudad1 y ciudad2
-                if (grafo.ExisteArista(ciudad1, ciudad2) && grafo.ExisteArista(ciudad2, ciudad1)) {
-                    if(!ciudadesFuertementeConectadas.Pertenece(ciudad1) || !ciudadesFuertementeConectadas.Pertenece(ciudad2)){
-                        System.out.printf("Las ciudades %s y %s estan fuertemente conectadas.\n", ciudad1, ciudad2);
-                    }
-                    ciudadesFuertementeConectadas.Agregar(ciudad1);
-                    ciudadesFuertementeConectadas.Agregar(ciudad2);
-                }
-            }
-        }
-
-        // Imprimir las ciudades fuertemente conectadas encontradas
-        if(ciudadesFuertementeConectadas.ConjuntoVacio()){
-            System.out.println("No hay ciudades fuertemente conectadas registradas.");
-        }
-    }
-
 }
